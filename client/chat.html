@@ -20,6 +20,6 @@
 </template>
 
 <template name="chat_message">
-  someone said: {{text}}
+  <img src="/{{avatar author}}" class="chat_img"> <b>{{username author}}:</b> {{text}}
   <br/>
 </template>

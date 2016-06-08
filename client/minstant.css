@@ -1,10 +1,15 @@
 /* CSS declarations go here */
 
-.user_avatar{
-	min-height:100px;
-	text-align: center;
+.user_avatar {
+    min-height: 100px;
+    text-align: center;
 
 }
-.avatar_img{
-	height:75px;
+
+.avatar_img {
+    height: 75px;
+}
+
+.chat_img {
+    height: 20px;
 }

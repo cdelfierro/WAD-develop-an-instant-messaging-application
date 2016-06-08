@@ -65,6 +65,21 @@ Template.available_user_list.helpers({
     }
 })
 
+Template.chat_message.helpers({
+    avatar: function(author) {
+        var user = Meteor.users.findOne({_id: author});
+        return user.profile.avatar;
+    },
+    username: function(author) {
+        if (author != Meteor.userId()) {
+            var otherUser = Meteor.users.findOne({_id: author});
+            return otherUser.profile.username;
+        } else {
+            return "You";
+        }
+    },
+})
+
 Template.chat_page.helpers({
     messages: function() {
         var chat = Chats.findOne({_id: Session.get("chatId")});
@@ -93,7 +108,10 @@ Template.chat_page.events({
             // is a good idea to insert data straight from the form
             // (i.e. the user) into the database?? certainly not.
             // push adds the message to the end of the array
-            msgs.push({text: event.target.chat.value});
+            msgs.push({
+                author: Meteor.userId(),
+                text: event.target.chat.value
+            });
             event.target.chat.value = ""; // resetea el formulario
             chat.messages = msgs;
             Chats.update(chat._id, chat);
