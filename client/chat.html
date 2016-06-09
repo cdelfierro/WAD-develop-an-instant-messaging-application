@@ -20,9 +20,25 @@
 </template>
 
 <template name="chat_message">
-  <img src="/{{avatar author}}" class="chat_img"> <b>{{username author}}:</b>
-    {{#emoji}}
-      {{text}}
-    {{/emoji}}
-  <br/>
+  <div class="row">
+  {{#if isMyUser author}}
+    <div class="col-md-5">
+      <p class="my-user-chat">
+      <img src="/{{avatar author}}" class="chat-img">
+        {{#emoji}}
+          {{text}}
+        {{/emoji}}
+      </p>
+    </div>
+  {{else}}
+    <div class="col-md-offset-7 col-md-5"> 
+      <p class="other-user-chat">
+        {{#emoji}}
+          {{text}}
+        {{/emoji}}
+        <img src="/{{avatar author}}" class="chat-img">
+      </p>
+    </div>
+  {{/if}}
+  </div>
 </template>

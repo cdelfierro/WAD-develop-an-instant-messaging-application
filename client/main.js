@@ -89,6 +89,14 @@ Template.chat_message.helpers({
         var user = Meteor.users.findOne({_id: author});
         return user.profile.avatar;
     },
+    isMyUser: function(userId) {
+        if (userId == Meteor.userId()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    },
     username: function(author) {
         if (author != Meteor.userId()) {
             var otherUser = Meteor.users.findOne({_id: author});

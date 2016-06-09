@@ -14,7 +14,19 @@
     text-align: center;
 }
 
-.chat_img {
+.my-user-chat {
+    text-align: left;
+    background-color: #ADD8E6;
+    border-radius: 20px;
+}
+
+.other-user-chat {
+    text-align: right;
+    background-color: #90EE90;
+    border-radius: 20px;
+}
+
+.chat-img {
     height: 30px;
     border-radius: 50%;
 }
