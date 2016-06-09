@@ -24,9 +24,7 @@ Router.route("/chat/:_id", function () {
     var chat = Chats.findOne(filter);
 
     if (!chat) { // no hay chat para el filtro - hay que insertar uno nuevo.
-        chatId = Chats.insert(
-            {user1Id: Meteor.userId(), user2Id: otherUserId}
-        );
+        chatId = Meteor.call("newChat", Meteor.userId(), otherUserId);
     }
     else { // ya hay un chat - usar ese.
         chatId = chat._id;
@@ -98,23 +96,11 @@ Template.chat_page.events({
     "submit .js-send-chat": function(event) {
         // evita que el formulario recarge la página !!!
         event.preventDefault();
-
-        var chat = Chats.findOne({_id: Session.get("chatId")});
-        if (chat) { // ok - tenemos un chat
-            var msgs = chat.messages;
-            if (!msgs) {
-                msgs = [];
-            }
-            // is a good idea to insert data straight from the form
-            // (i.e. the user) into the database?? certainly not.
-            // push adds the message to the end of the array
-            msgs.push({
-                author: Meteor.userId(),
-                text: event.target.chat.value
-            });
-            event.target.chat.value = ""; // resetea el formulario
-            chat.messages = msgs;
-            Chats.update(chat._id, chat);
-        }
+        var message = {
+            author: Meteor.userId(),
+            text: event.target.chat.value
+        };
+        Meteor.call("pushMessage", Session.get("chatId"), message);
+        event.target.chat.value = ""; // resetea el formulario
     }
 })
