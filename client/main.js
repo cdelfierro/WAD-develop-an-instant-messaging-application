@@ -96,8 +96,14 @@ Template.chat_page.helpers({
         var chat = Chats.findOne({_id: Session.get("chatId")});
         return chat.messages;
     },
-    other_user: function() {
-        return "";
+    otherUser: function() {
+        var chat = Chats.findOne({_id: Session.get("chatId")});
+        if (Meteor.userId() == chat.user1Id) {
+            otherUser = Meteor.users.findOne({_id: chat.user2Id});
+        } else {
+            otherUser = Meteor.users.findOne({_id: chat.user1Id});
+        }
+        return otherUser.profile.username;
     },
 })
 

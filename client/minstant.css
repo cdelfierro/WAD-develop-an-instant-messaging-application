@@ -10,8 +10,13 @@
     height: 75px;
 }
 
+.chat-title {
+    text-align: center;
+}
+
 .chat_img {
-    height: 20px;
+    height: 30px;
+    border-radius: 50%;
 }
 
 .emoji {
