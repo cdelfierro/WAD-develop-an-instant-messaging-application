@@ -1,8 +1,10 @@
 Meteor.methods({
     newChat: function(user1, user2) {
-        console.log("New chat created!");
         if(user1 && user2) {
+            console.log("New chat created!");
             Chats.insert({user1Id: user1, user2Id: user2});
+        } else {
+            console.log("Unauthorized user!");
         }
     },
     pushMessage: function(chatId, msg) {

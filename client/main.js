@@ -20,31 +20,39 @@ Router.route("/", function () {
     this.render("lobby_page", {to:"main"});
 });
 
-Router.route("/chat/:_id", function () {
-    // El id del otro usuario es el id de la URL ruteada.
-    var otherUserId = this.params._id;
-    // Encuentra el chat que tiene dos usuarios que corresponden al user id
-    // actual y al solicitado en la sentencia anteriror.
-    var filter = {$or: [
-        {user1Id: Meteor.userId(), user2Id: otherUserId},
-        {user2Id: Meteor.userId(), user1Id: otherUserId}
-    ]};
-    var chat = Chats.findOne(filter);
+Router.route("/chat/:_id", {
+    waitOn: function() {
+        return Meteor.subscribe("chats");
+    },
+    data: function() {
+        var otherUserId = this.params._id;
+        var filter = {$or: [
+            {user1Id: Meteor.userId(), user2Id: otherUserId},
+            {user2Id: Meteor.userId(), user1Id: otherUserId}
+        ]};
+        return Chats.findOne(filter);
+    },
+    action: function() {
+        if (this.ready()) {
+            var otherUserId = this.params._id;
+            var chat = Router.current().data();
+            if (!chat) {
+                console.log("No hay chat.");
+                chatId = Meteor.call("newChat", Meteor.userId(), otherUserId);
+            } else {
+                chatId = Router.current().data()._id;
+            }
 
-    if (!chat) { // no hay chat para el filtro - hay que insertar uno nuevo.
-        chatId = Meteor.call("newChat", Meteor.userId(), otherUserId);
-    }
-    else { // ya hay un chat - usar ese.
-        chatId = chat._id;
-    }
-
-    if (chatId) {
-        Session.set("chatId", chatId);
-        this.render("navbar", {to: "header"});
-        this.render("chat_page", {to: "main"});
-    } else {
-        this.render("navbar", {to: "header"});
-        this.render("forbidden_page", {to: "main"});
+            console.log("Chat id: " + chatId);
+            if (chatId) {
+                Session.set("chatId", chatId);
+                this.render("navbar", {to: "header"});
+                this.render("chat_page", {to: "main"});
+            } else {
+                this.render("navbar", {to: "header"});
+                this.render("forbidden_page", {to: "main"});
+            }
+        }
     }
 });
 
