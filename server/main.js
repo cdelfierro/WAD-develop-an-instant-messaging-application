@@ -18,7 +18,9 @@ Meteor.startup(function () {
 });
 
 Meteor.publish("users", function() {
-    return Meteor.users.find();
+    if (this.userId) {
+        return Meteor.users.find();
+    }
 });
 
 Meteor.publish("chats", function() {

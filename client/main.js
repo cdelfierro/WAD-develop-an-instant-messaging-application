@@ -39,10 +39,12 @@ Router.route("/chat/:_id", function () {
 
     if (chatId) {
         Session.set("chatId", chatId);
+        this.render("navbar", {to: "header"});
+        this.render("chat_page", {to: "main"});
+    } else {
+        this.render("navbar", {to: "header"});
+        this.render("forbidden_page", {to: "main"});
     }
-
-    this.render("navbar", {to: "header"});
-    this.render("chat_page", {to: "main"});
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +68,10 @@ Template.available_user.helpers({
 
 Template.available_user_list.helpers({
     users: function() {
-        return Meteor.users.find();
+        if (Meteor.users.find().count()) {
+            return Meteor.users.find();
+        }
+        return false;
     }
 })
 

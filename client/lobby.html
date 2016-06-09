@@ -5,9 +5,15 @@
 <template name="available_user_list">
   <h2>Choose someone to chat with:</h2>
   <div class="row">
-  {{#each users}}
-    {{> available_user}}
-  {{/each}}
+    {{#if users}}
+      {{#each users}}
+        {{> available_user}}
+      {{/each}}
+    {{else}}
+      <div class="col-md-12">
+        <p>You must login to chat with another users</p>
+      </div>
+    {{/if}}
   </div>
 </template>
 

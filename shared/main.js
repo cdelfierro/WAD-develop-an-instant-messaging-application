@@ -1,7 +1,9 @@
 Meteor.methods({
     newChat: function(user1, user2) {
         console.log("New chat created!");
-        Chats.insert({user1Id: user1, user2Id: user2});
+        if(user1 && user2) {
+            Chats.insert({user1Id: user1, user2Id: user2});
+        }
     },
     pushMessage: function(chatId, msg) {
         var chat = Chats.findOne({_id: chatId});
