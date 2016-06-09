@@ -31,3 +31,7 @@ Meteor.publish("chats", function() {
         ]
     });
 });
+
+Meteor.publish("emojis", function() {
+    return Emojis.find();
+});

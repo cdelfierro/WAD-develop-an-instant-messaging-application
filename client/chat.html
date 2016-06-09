@@ -20,6 +20,9 @@
 </template>
 
 <template name="chat_message">
-  <img src="/{{avatar author}}" class="chat_img"> <b>{{username author}}:</b> {{text}}
+  <img src="/{{avatar author}}" class="chat_img"> <b>{{username author}}:</b>
+    {{#emoji}}
+      {{text}}
+    {{/emoji}}
   <br/>
 </template>
